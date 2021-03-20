@@ -2,13 +2,13 @@
 # fullcalc by noneflake
 
 from __future__ import annotations
-from typing     import Union
+from typing     import Union, Iterable, Callable
 
 
-def sl(s, i: int) -> str:
+def sl(s: Iterable, i: int) -> Iterable:
     return s[:i]
 
-def sr(s, i: int) -> str:
+def sr(s: Iterable, i: int) -> Iterable:
     return s[i+1:]
 
 """ Unused (updated before repo creation)
@@ -19,7 +19,7 @@ def findAny(s: str, *subs: tuple[str]) -> bool:
     return False
 """
 
-ops: list[tuple[str, callable]] = [
+ops: list[tuple[str, Callable]] = [
     ("+", (lambda a, b: a + b)),
     ("-", (lambda a, b: a - b)),
     ("*", (lambda a, b: a * b)),
