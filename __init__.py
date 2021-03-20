@@ -11,12 +11,13 @@ def sl(s, i: int) -> str:
 def sr(s, i: int) -> str:
     return s[i+1:]
 
+""" Unused (updated before repo creation)
 def findAny(s: str, *subs: tuple[str]) -> bool:
     for sub in subs:
         if s.find(sub) != -1:
             return True
     return False
-
+"""
 
 ops: list[tuple[str, callable]] = [
     ("+", (lambda a, b: a + b)),
