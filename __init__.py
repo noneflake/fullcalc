@@ -52,7 +52,7 @@ def precalc(s: str) -> list[Union[float, str]]:
     return lst
 
 
-def calc(s: list[str]) -> float:
+def calc(s: list[Union[int, float, str]]) -> float:
     num: Union[float, int] = None
     for op, opr in ops:
         for i, t in enumerate(s):
