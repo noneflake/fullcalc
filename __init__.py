@@ -5,12 +5,6 @@ from __future__ import annotations
 from typing     import Union, Iterable, Callable
 
 
-def sl(s: Iterable, i: int) -> Iterable:
-    return s[:i]
-
-def sr(s: Iterable, i: int) -> Iterable:
-    return s[i+1:]
-
 """ Unused (updated before repo creation)
 def findAny(s: str, *subs: tuple[str]) -> bool:
     for sub in subs:
@@ -19,23 +13,31 @@ def findAny(s: str, *subs: tuple[str]) -> bool:
     return False
 """
 
-ops: list[tuple[str, Callable]] = [
+
+ops: dict[str, Callable] = dict([
     ("+", (lambda a, b: a + b)),
     ("-", (lambda a, b: a - b)),
     ("*", (lambda a, b: a * b)),
     ("/", (lambda a, b: a / b)),
     ("^", (lambda a, b: a ** b))
-]
+])
 
+oporder = [
+    "+-",
+    "*/",
+    "^"
+]
 
 def precalc(s: str) -> list[Union[float, str]]:
     lst : list[Union[float, str]] = []
-    rops: str = "".join([e[0] for e in ops])
+    rops: str = "".join([e[0] for e in ops.keys()])
     tnum: str = None
     for i, c in enumerate(s):
-        if c in "0123456789":
+        if c in "0123456789.":
             if tnum is None:
                 tnum = str()
+            if c == "." and tnum.find(".") != -1:
+                return None
             tnum += c
             if i == len(s)-1:
                 lst.append(float(tnum))
@@ -48,18 +50,28 @@ def precalc(s: str) -> list[Union[float, str]]:
 
         if c in rops:
             lst.append(c)
-    print(lst)
-    return lst
+    return [e for e in reversed(lst)]
 
 
-def calc(s: list[Union[int, float, str]]) -> float:
-    num: Union[float, int] = None
-    for op, opr in ops:
-        for i, t in enumerate(s):
-            if t == op:
-                return opr(calc(sl(s, i)), calc(sr(s, i)))
-            if isinstance(t, (int, float)):
+def calc(lst: list[Union[float, str]]) -> float:
+    num: float = None
+    for oprd in oporder:
+        for i, t in enumerate(lst):
+            if isinstance(t, float):
                 num = t
+                continue
+            if t in oprd:
+                left  = lst[:i]
+                right = lst[i+1:]
+                rleft  = calc(left)
+                rright = calc(right)
+                rboth  = ops[t](rright, rleft)
+                print(lst)
+                print(f"<{right} : {rright}>  {t}  <{left} : {rleft}>  =  <{rboth}>")
+                return rboth
     return num
 
-# Usage : calc(precalc("0*4+6/2^2"))
+
+test = ["0-77-2", "0.5*4^2-7"]
+for e in test:
+    print(f"Calc   > {calc(precalc(e))}\nPython > {eval(e.replace('^', '**'))}\n")
