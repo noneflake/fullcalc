@@ -9,17 +9,13 @@
 
 > Parentheses and signed numbers
 
-> `pi`, *`i`*
+> Constants
 
-> `root(n, x)` aka `x^(1/n)`
+> Functions
 
-> `exp(x)`, `log(x)`
+> Complex numbers
 
-> `cos(x)`, `sin(x)` (rad only)
-
-> `|z|` and `arg(z)`
-
-> `expi(x)` aka `(cos(x)+i*sin(x))`
+> Trigonometry
 
 > ...
 
