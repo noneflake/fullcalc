@@ -1,5 +1,5 @@
 # coding: utf-8
-# fullcalc by noneflake
+# fullcalc by astergeist
 
 from __future__ import annotations
 from typing     import Union, Iterable, Callable
